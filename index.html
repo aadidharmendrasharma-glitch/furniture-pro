@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dharmendra Kumar Sharma Furniture Shop</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <div class="logo">
+        <h2>Dharmendra Kumar Sharma Furniture Shop</h2>
+        <p>Quality Furniture & Custom Furniture Work</p>
+    </div>
+
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#products">Products</a>
+        <a href="#custom">Custom Order</a>
+        <a href="#admin">Admin Panel</a>
+        <a href="#reviews">Reviews</a>
+        <a href="#contact">Contact</a>
+    </nav>
+
+    <button onclick="showCart()">
+        Cart (<span id="cartCount">0</span>)
+    </button>
+</header>
+
+<section id="home" class="hero">
+    <div>
+        <h1>Welcome to Dharmendra Kumar Sharma Furniture Shop</h1>
+        <p>Beautiful, Strong and Stylish Furniture for Your Home</p>
+        <a href="#products" class="btn">Explore Products</a>
+    </div>
+</section>
+
+<section id="products" class="section">
+    <h2>Our Furniture Collection</h2>
+
+    <input type="text" id="searchInput"
+        placeholder="Search Furniture..."
+        oninput="displayProducts()">
+
+    <div id="productList" class="product-grid"></div>
+</section>
+
+<section id="custom" class="section">
+    <h2>Custom Furniture Price Calculator</h2>
+    <p>Enter your furniture size to calculate the estimated price.</p>
+
+    <div class="calculator">
+
+        <label>Furniture Type</label>
+        <select id="customType">
+            <option value="Bed">Bed</option>
+            <option value="Wardrobe">Wardrobe</option>
+            <option value="Sofa">Sofa</option>
+            <option value="Table">Table</option>
+            <option value="Cabinet">Cabinet</option>
+            <option value="Other">Other</option>
+        </select>
+
+        <label>Length (Feet)</label>
+        <input type="number" id="customLength" step="0.1" min="0.1">
+
+        <label>Width (Feet)</label>
+        <input type="number" id="customWidth" step="0.1" min="0.1">
+
+        <label>Height (Feet)</label>
+        <input type="number" id="customHeight" step="0.1" min="0.1">
+
+        <label>Design Type</label>
+        <select id="customDesign">
+            <option value="standard">Standard</option>
+            <option value="premium">Premium</option>
+            <option value="luxury">Luxury</option>
+        </select>
+
+        <label>Additional Details</label>
+        <textarea id="customDetails"
+            placeholder="Enter your requirements..."></textarea>
+
+        <button onclick="calculatePrice()">Calculate Price</button>
+
+        <button onclick="orderCustomFurniture()" class="whatsapp-btn">
+            Order on WhatsApp
+        </button>
+
+        <div class="price-box">
+            <h3>Price Details</h3>
+            <p>Total Size: <span id="sizeResult">0</span> Cubic Feet</p>
+            <p>Rate: <span id="rateResult">₹0</span></p>
+            <p>Basic Price: <span id="basePriceResult">₹0</span></p>
+            <p>Design Charge: <span id="designResult">₹0</span></p>
+            <p>GST: <span id="gstResult">₹0</span></p>
+            <h2>Final Price: <span id="finalPriceResult">₹0</span></h2>
+        </div>
+
+    </div>
+</section>
+
+<section id="admin" class="section">
+    <h2>Admin Panel</h2>
+
+    <div class="admin-box">
+        <h3>Set Furniture Rates</h3>
+
+        <form id="rateForm">
+            <label>Furniture Type</label>
+            <select id="rateType">
+                <option value="Bed">Bed</option>
+                <option value="Wardrobe">Wardrobe</option>
+                <option value="Sofa">Sofa</option>
+                <option value="Table">Table</option>
+                <option value="Cabinet">Cabinet</option>
+                <option value="Other">Other</option>
+            </select>
+
+            <label>Rate Per Cubic Feet (₹)</label>
+            <input type="number" id="rateValue" min="0"
+                step="0.01" required>
+
+            <button type="submit">Save Rate</button>
+        </form>
+
+        <div id="rateList"></div>
+    </div>
+
+    <div class="admin-box">
+        <h3>Set Design Charges (%)</h3>
+
+        <form id="designForm">
+            <label>Standard Design (%)</label>
+            <input type="number" id="standardRate" min="0" required>
+
+            <label>Premium Design (%)</label>
+            <input type="number" id="premiumRate" min="0" required>
+
+            <label>Luxury Design (%)</label>
+            <input type="number" id="luxuryRate" min="0" required>
+
+            <button type="submit">Save Design Rates</button>
+        </form>
+    </div>
+
+    <div class="admin-box">
+        <h3>GST Settings</h3>
+
+        <form id="gstForm">
+            <label>GST Percentage</label>
+            <input type="number" id="gstRate" min="0"
+                max="100" step="0.01" required>
+
+            <label>GST Type</label>
+            <select id="gstType">
+                <option value="intra">CGST + SGST</option>
+                <option value="inter">IGST</option>
+            </select>
+
+            <button type="submit">Save GST Settings</button>
+        </form>
+    </div>
+
+    <div class="admin-box">
+        <h3>Add / Edit Furniture Products</h3>
+
+        <form id="productForm">
+            <input type="hidden" id="editId">
+
+            <label>Product Name</label>
+            <input type="text" id="productName" required>
+
+            <label>Description</label>
+            <textarea id="productDescription"></textarea>
+
+            <label>Product Image</label>
+            <input type="file" id="productImage" accept="image/*">
+
+            <label>Product Price (₹)</label>
+            <input type="number" id="productPrice" min="0" required>
+
+            <button type="submit" id="saveButton">Add Product</button>
+        </form>
+
+        <div id="adminProductList"></div>
+    </div>
+</section>
+
+<section id="reviews" class="section">
+    <h2>Customer Reviews</h2>
+
+    <form id="reviewForm">
+        <input type="text" id="reviewName"
+            placeholder="Enter Your Name" required>
+
+        <textarea id="reviewText"
+            placeholder="Write Your Review" required></textarea>
+
+        <button type="submit">Submit Review</button>
+    </form>
+
+    <div id="reviewList"></div>
+</section>
+
+<section id="contact" class="section">
+    <h2>Contact Us</h2>
+
+    <div class="contact-box">
+        <h3>Dharmendra Kumar Sharma Furniture Shop</h3>
+
+        <p><b>Owner:</b> Dharmendra Kumar Sharma</p>
+        <p><b>Phone:</b> 8320997644</p>
+        <p><b>Email:</b> dksharmams8309@gmail.com</p>
+        <p><b>Location:</b> Vadodara, Gujarat, India</p>
+
+        <a href="tel:8320997644" class="btn">Call Now</a>
+
+        <a href="https://wa.me/918320997644"
+            target="_blank" rel="noopener"
+            class="whatsapp-btn">WhatsApp</a>
+    </div>
+
+    <iframe
+        src="https://www.google.com/maps?q=Vadodara,Gujarat&output=embed"
+        width="100%"
+        height="300"
+        style="border:0;"
+        loading="lazy">
+    </iframe>
+</section>
+
+<footer>
+    <p>© 2026 Dharmendra Kumar Sharma Furniture Shop</p>
+    <p>All Rights Reserved</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
